@@ -1,0 +1,59 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": false,
+    "jsx": "react",
+    "incremental": true,
+    "allowUnreachableCode": false,
+    "importHelpers": true,
+    "noErrorTruncation": true,
+    "noFallthroughCasesInSwitch": true,
+    "strictBindCallApply": true,
+    "noImplicitAny": false,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "noImplicitReturns": true,
+    "skipLibCheck": true,
+    "pretty": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strictNullChecks": true,
+    "removeComments": true,
+    "noLib": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es2017",
+    "inlineSourceMap": true,
+    "inlineSources": false,
+    "outDir": "build",
+    "baseUrl": "./src",
+    "lib": [
+      "esnext.asynciterable",
+      "es2015.promise",
+      "dom"
+    ],
+    "rootDir": "src",
+    "paths": {
+      "@app/*": [
+        "app/*"
+      ],
+      "@shared/*": [
+        "shared/*"
+      ],
+      "@assets/*": [
+        "src/assets/*"
+      ],
+      "@generated/*": [
+        "generated/*"
+      ]
+    }
+  },
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.tsx"
+    //    "./src/**/*.graphql"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

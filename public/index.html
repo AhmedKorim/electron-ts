@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <base href="/"/>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Readon - Dashboard</title>
+    <style>
+        .lds-ripple {
+            display: inline-block;
+            position: fixed;
+            width: 80px;
+            height: 80px;
+            left: calc(50% - 40px);
+            top: calc(50% - 40px);
+        }
+
+        .lds-ripple div {
+            position: absolute;
+            border: 4px solid #c08443;
+            opacity: 1;
+            border-radius: 50%;
+            animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+        }
+
+        .lds-ripple div:nth-child(2) {
+            animation-delay: -0.5s;
+        }
+
+        @keyframes lds-ripple {
+            0% {
+                top: 36px;
+                left: 36px;
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+            100% {
+                top: 0px;
+                left: 0px;
+                width: 72px;
+                height: 72px;
+                opacity: 0;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+<body>
+<script>
+    var $_paprdoc = document.createElement( 'div' )
+    $_paprdoc.className = "lds-ripple"
+    $_paprdoc.innerHTML = `
+    <div></div>
+    <div></div>
+    `
+    document.body.appendChild( $_paprdoc )
+    console.log( 'added child' );
+    document.body.style.minHeight = '100vh';
+    document.addEventListener( 'DOMContentLoaded', function ( e ) {
+        console.log( 'removed child' );
+        $_paprdoc.innerHTML = ''
+        $_paprdoc.remove();
+    } )
+</script>
+<div id="root"></div>
+<script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"></script>
+</body>
+</html>

@@ -8,7 +8,7 @@ const { dependencies } = require( '../package' );
 const dist = path.join( __dirname, '..', 'dll' );
 
 const dillConf = ( { mode, es5 = false, aggressize = false } = {} ) => ( {
-    // devtool: 'eval',
+    devtool: 'eval',
     mode: 'development',
     target: 'electron-renderer',
     context: path.join( __dirname, '..' ),
@@ -17,7 +17,6 @@ const dillConf = ( { mode, es5 = false, aggressize = false } = {} ) => ( {
     entry: {
         renderer: Object.keys( dependencies || {} )
     },
-    mode: mode !== 'prod' ? 'development' : 'production',
     output: {
         library: 'renderer',
         path: dist,
@@ -28,6 +27,11 @@ const dillConf = ( { mode, es5 = false, aggressize = false } = {} ) => ( {
         new webpack.DllPlugin( {
             path: path.join( dist, '[name].json' ),
             name: '[name]'
+        } ),
+        new webpack.DefinePlugin( {
+            'process.env': JSON.stringify( {
+                NODE_ENV: 'development',
+            } )
         } ),
         new webpack.LoaderOptionsPlugin( {
             debug: true,

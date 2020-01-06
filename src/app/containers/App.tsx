@@ -25,7 +25,7 @@ class App extends React.Component {
                     {
                         this.state.number
                     }
-                    Click me over {this.state.number} as wee
+                    Click me over {this.state.number} as weeer
                 </button>
             </div>
         )

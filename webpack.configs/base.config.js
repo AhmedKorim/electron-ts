@@ -8,32 +8,23 @@ const builldPlugins = [
 ]
 const root = path.join( __dirname, '..' );
 const dotenv = require( 'dotenv' ).config( { path: path.join( root, '.env' ) } ).parsed;
-module.exports.envConf = dotenv;
 const srcDir = path.join( root, dotenv.approot || '' );
 const appDir = path.join( srcDir, 'app' );
-const { dependencies: externals } = require( '../package' );
+const { dependencies: externals } = require( '../src/package' );
 const ForkTsCheckerWebpackPlugin = require( 'fork-ts-checker-webpack-plugin' );
-
 module.exports = ( { mode, es5 = false, aggressize = false } = {} ) => {
     return {
         output: {
-            libraryTarget: 'commonjs2'
+            libraryTarget: 'commonjs2',
+            path: path.join( __dirname, '..', 'build' ),
 
         },
         resolve: {
             extensions: [ ".ts", ".tsx", ".js", ".jsx" ],
             descriptionFiles: [ 'package.json' ],
             alias: {
-                'react-dom': path.resolve( path.join( root, 'node_modules','@hot-loader/react-dom' ) ),
-                '@app': path.resolve( root, appDir ),
-                'react-hot-loader': path.resolve( root, 'node_modules', 'react-hot-loader' ),
-                '@assets': path.resolve( root, srcDir, 'assets' ),
-                'target': path.resolve( root, 'node_modules' ),
-                '@shared': path.resolve( root, srcDir, 'shared' ),
-                // 'theme': path.resolve( root, 'dashboardTheme' ),
-                '@target': path.resolve( root, 'node_modules' ),
-
-            },
+                'react-dom': '@hot-loader/react-dom'
+            }
         },
         stats: 'errors-only',
         devtool: 'source-map',
@@ -41,7 +32,7 @@ module.exports = ( { mode, es5 = false, aggressize = false } = {} ) => {
             rules: [
                 {
                     test: /\.t?sx?$/,
-                    exclude: es5 ? !aggressize ? /node_modules\/(?!(@material-ui|react-spring)\/).*/ : / / : /node_modules|packages/,
+                    exclude: /node_modules/,
                     use: [ {
                         loader: 'babel-loader',
                         options: {
@@ -52,7 +43,7 @@ module.exports = ( { mode, es5 = false, aggressize = false } = {} ) => {
                                 "@babel/preset-react" ],
                             plugins: [
                                 "@babel/plugin-syntax-dynamic-import",
-                                ...( mode === 'prod' ? [] : [ "react-hot-loader/babel" ] ),
+                                "react-hot-loader/babel",
                                 [ "@babel/plugin-proposal-decorators", { legacy: true } ],
                                 [
                                     "@babel/plugin-proposal-class-properties",
@@ -78,16 +69,11 @@ module.exports = ( { mode, es5 = false, aggressize = false } = {} ) => {
                     use: [ {
                         loader: 'babel-loader?cacheDirectory',
                         options: {
-                            presets: [ [ "@babel/preset-env", {
-                                targets: {
-                                    "chrome": "58",
-                                    "ie": "11"
-                                }
-                            } ],
+                            presets: [ [ "@babel/preset-env", ],
                                 "@babel/preset-react" ],
                             plugins: [
                                 "@babel/plugin-syntax-dynamic-import",
-                                ...( mode === 'prod' ? [] : [ "react-hot-loader/babel" ] ),
+                                "react-hot-loader/babel",
                                 [
                                     "@babel/plugin-proposal-class-properties",
                                     {
@@ -129,6 +115,7 @@ module.exports = ( { mode, es5 = false, aggressize = false } = {} ) => {
             ]
         },
         parallelism: 1,
+        externals: [ ...Object.keys( externals || {} ) ],
         plugins: [
             new ForkTsCheckerWebpackPlugin(),
             new webpack.DefinePlugin( {
@@ -142,5 +129,4 @@ module.exports = ( { mode, es5 = false, aggressize = false } = {} ) => {
         ]
     }
 }
-module.exports.srcDir = srcDir
-module.exports.appDir = appDir
+

@@ -9,7 +9,7 @@ const unhandled = require('electron-unhandled');
 unhandled();
 const isDevelopment = process.env.NODE_ENV !== 'production'
 let mainWindow;
-
+console.log({isDevelopment});
 class AppUpdater {
     constructor() {
         log.transports.file.level = 'info';
@@ -17,8 +17,8 @@ class AppUpdater {
         autoUpdater.checkForUpdatesAndNotify();
     }
 }
-
 module.exports = AppUpdater;
+
 
 if (process.env.NODE_ENV === 'production') {
     const sourceMapSupport = require('source-map-support');
@@ -26,8 +26,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 if (
-    process.env.NODE_ENV === 'development' ||
-    process.env.DEBUG_PROD === 'true'
+    process.env.NODE_ENV === 'development'
 ) {
     require('electron-debug')();
 }
@@ -46,8 +45,7 @@ async function createMainWindow() {
     try {
 
         if (
-            process.env.NODE_ENV === 'development' ||
-            process.env.DEBUG_PROD === 'true'
+            process.env.NODE_ENV === 'development'
         ) {
             console.log(' installing ext');
             await installExtensions();
